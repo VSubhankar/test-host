@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>I'm Sorry, Sriya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root{
+    --cream: #F6F3FF;
+    --blush: #FFCBE8;
+    --lavender: #C9B6FF;
+    --blue: #8FA6FF;
+    --rose: #FF7FC0;
+    --rose-deep: #C239A8;
+    --purple-deep: #6B3FA0;
+    --plum: #35204F;
+    --plum-soft: #5A3E75;
+    --white: #FFFFFF;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+
+  body{
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(160deg, var(--cream) 0%, var(--blush) 40%, var(--blue) 78%, var(--lavender) 100%);
+    color: var(--plum);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    padding: 24px 16px;
+  }
+
+  /* floating hearts background */
+  .heart-field{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .drift-heart{
+    position: absolute;
+    bottom: -10%;
+    font-size: 1.4rem;
+    opacity: 0.7;
+    animation: float-up linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(194,57,168,0.15));
+  }
+
+  @keyframes float-up{
+    0%{ transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    10%{ opacity: 0.6; }
+    90%{ opacity: 0.5; }
+    100%{ transform: translateY(-115vh) translateX(var(--drift, 20px)) rotate(25deg); opacity: 0; }
+  }
+
+  .card{
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.9);
+    border-radius: 32px;
+    padding: 44px 30px 36px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px -15px rgba(194,57,168,0.35), 0 4px 20px rgba(107,76,110,0.08);
+    animation: card-in 0.7s cubic-bezier(.2,.9,.25,1.1) both;
+  }
+
+  @keyframes card-in{
+    from{ opacity: 0; transform: translateY(22px) scale(0.97); }
+    to{ opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .sorry-banner{
+    font-size: 3rem;
+    display: inline-block;
+    animation: banner-float 2.4s ease-in-out infinite;
+    filter: drop-shadow(0 8px 14px rgba(194,57,168,0.4));
+  }
+
+  @keyframes banner-float{
+    0%, 100%{ transform: translateY(0) rotate(-4deg); }
+    50%{ transform: translateY(-10px) rotate(4deg); }
+  }
+
+  .eyebrow{
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    font-weight: 700;
+    margin: 14px 0 6px;
+  }
+
+  h1{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 2.15rem;
+    line-height: 1.15;
+    margin: 0 0 4px;
+    color: var(--plum);
+  }
+
+  h1 .name{
+    color: var(--rose-deep);
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .subtitle{
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--plum-soft);
+    margin: 14px 2px 24px;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .divider{
+    width: 46px;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--rose), var(--blue), var(--lavender));
+    margin: 0 auto 26px;
+  }
+
+  .btn-wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  button{
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 1.08rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 15px 34px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  #forgiveBtn{
+    background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 55%, var(--purple-deep) 100%);
+    color: white;
+    box-shadow: 0 10px 24px -8px rgba(194,57,168,0.6);
+    animation: breathe-btn 1.8s ease-in-out infinite;
+  }
+
+  @keyframes breathe-btn{
+    0%, 100%{ transform: scale(1); }
+    50%{ transform: scale(1.07); }
+  }
+
+  #forgiveBtn:hover{
+    animation-play-state: paused;
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 14px 30px -8px rgba(194,57,148,0.7);
+  }
+
+  #forgiveBtn:active{
+    transform: scale(0.95);
+  }
+
+  #forgiveBtn.pulse{
+    animation: breathe-btn 1.8s ease-in-out infinite, pulse-btn 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse-btn{
+    0%, 100%{ box-shadow: 0 10px 24px -8px rgba(194,57,168,0.6); }
+    50%{ box-shadow: 0 10px 32px -6px rgba(194,57,168,0.85); }
+  }
+
+  .hint{
+    font-size: 0.82rem;
+    color: var(--plum-soft);
+    opacity: 0.75;
+    min-height: 1.2em;
+  }
+
+  /* success state */
+  .success{
+    display: none;
+    animation: pop-in 0.5s cubic-bezier(.2,.9,.25,1.2) both;
+  }
+
+  .success.show{ display: block; }
+
+  @keyframes pop-in{
+    0%{ opacity: 0; transform: scale(0.8); }
+    60%{ opacity: 1; transform: scale(1.05); }
+    100%{ transform: scale(1); }
+  }
+
+  .success .big-emoji{
+    font-size: 3.2rem;
+    display: block;
+    margin-bottom: 8px;
+    animation: bounce-emoji 1s ease-in-out infinite;
+  }
+
+  @keyframes bounce-emoji{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-8px); }
+  }
+
+  .success h2{
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 1.5rem;
+    color: var(--rose-deep);
+    margin: 0 0 6px;
+  }
+
+  .success p{
+    color: var(--plum-soft);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .confetti-piece{
+    position: fixed;
+    top: -5%;
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 2px;
+    animation: confetti-fall linear forwards;
+  }
+
+  @keyframes confetti-fall{
+    to{ transform: translateY(115vh) rotate(var(--rot, 360deg)); opacity: 0.9; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .drift-heart, .sorry-banner, #forgiveBtn, #forgiveBtn.pulse, .success .big-emoji, .card{
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="heart-field" id="heartField"></div>
+
+<div class="card">
+  <span class="sorry-banner">🙏</span>
+  <div class="eyebrow">a very important message</div>
+  <h1>I'm Sorry, <span class="name">Sriya</span> 🥹</h1>
+  <p class="subtitle">
+    I messed up by annoying you with those long messages when you were busy, and I know that 😔💭
+    I'm truly sorry 🥺💔 But you mean way too much to me to just let go of this friendship 🫶🏻🌸
+    I want to make things right and hold on till the end, whatever it takes 🤍🥹
+    Please don't keep giving me the silent treatment… I genuinely miss talking to you 😭💗🫂
+  </p>
+  <div class="divider"></div>
+
+  <div class="btn-wrap" id="mainState">
+    <button id="forgiveBtn">Forgive me? 🥺</button>
+    <span class="hint" id="hint">tap it, I'll wait right here</span>
+  </div>
+
+  <div class="success" id="successState">
+    <span class="big-emoji">🎉</span>
+    <h2>Thanks for forgiving 🤗</h2>
+    <p>I owe u a chocolate 😊 Now please unblock me and send me a hi, I am waiting 🥹</p>
+  </div>
+</div>
+
+<script>
+  // ---- EmailJS status notifier ----
+  // 1. Sign up free at https://www.emailjs.com
+  // 2. Add an Email Service (e.g. connect your Gmail) -> get SERVICE_ID
+  // 3. Create an Email Template with variables {{event}} and {{time}} -> get TEMPLATE_ID
+  // 4. Account > General > find your Public Key -> get PUBLIC_KEY
+  // 5. Replace the three placeholders below
+  const EMAILJS_PUBLIC_KEY = "2LBGy386yrYUGJac0";
+  const EMAILJS_SERVICE_ID = "service_j0c42ja";
+  const EMAILJS_TEMPLATE_ID = "template_gx9tdoc";
+  const NOTIFY_EMAIL = "subhamchinnu10@gmail.com";
+
+  // v4 SDK requires init to be called once with an object, not a string
+  if (typeof emailjs !== "undefined"){
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+
+  function notifyStatus(eventLabel){
+    if (typeof emailjs === "undefined"){
+      console.error("EmailJS SDK failed to load");
+      return;
+    }
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: NOTIFY_EMAIL,
+      event: eventLabel,
+      time: new Date().toLocaleString()
+    }).then(() => {
+      console.log("Notifier sent:", eventLabel);
+    }).catch((err) => {
+      console.error("Notifier failed:", eventLabel, err);
+    });
+  }
+
+  // fires once when she opens the page
+  notifyStatus("Page opened 👀");
+
+  // Ambient floating hearts
+  const heartField = document.getElementById('heartField');
+  const heartEmojis = ['💗','💕','💜','💙','✨','🩵'];
+  const totalHearts = 22;
+
+  for (let i = 0; i < totalHearts; i++){
+    const h = document.createElement('span');
+    h.className = 'drift-heart';
+    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    h.style.left = Math.random() * 100 + '%';
+    h.style.fontSize = (1.5 + Math.random() * 1.6) + 'rem';
+    h.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+    const duration = 4.5 + Math.random() * 5;
+    h.style.animationDuration = duration + 's';
+    h.style.animationDelay = (Math.random() * duration) + 's';
+    heartField.appendChild(h);
+  }
+
+  // Forgive button interaction
+  const forgiveBtn = document.getElementById('forgiveBtn');
+  const mainState = document.getElementById('mainState');
+  const successState = document.getElementById('successState');
+  const hint = document.getElementById('hint');
+
+  const hints = [
+    "tap it, I'll wait right here",
+    "no rush, I mean it 🐢",
+    "still here, still sorry 🥹",
+    "okay maybe one more tap? 👉👈"
+  ];
+  let hintIndex = 0;
+
+  forgiveBtn.addEventListener('mouseenter', () => {
+    forgiveBtn.classList.add('pulse');
+  });
+
+  let clickCount = 0;
+  forgiveBtn.addEventListener('click', () => {
+    clickCount++;
+    if (clickCount < 1){
+      hintIndex = (hintIndex + 1) % hints.length;
+      hint.textContent = hints[hintIndex];
+      return;
+    }
+    // celebrate
+    notifyStatus("Forgive me clicked 💗");
+    launchConfetti();
+    mainState.style.display = 'none';
+    successState.classList.add('show');
+  });
+
+  function launchConfetti(){
+    const colors = ['#FF7FC0', '#C239A8', '#8FA6FF', '#C9B6FF', '#F6F3FF'];
+    const count = 60;
+    for (let i = 0; i < count; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const size = 6 + Math.random() * 6;
+      piece.style.width = size + 'px';
+      piece.style.height = (size * 0.4) + 'px';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+      const duration = 2.2 + Math.random() * 1.6;
+      piece.style.animationDuration = duration + 's';
+      piece.style.animationDelay = (Math.random() * 0.4) + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), (duration + 0.5) * 1000);
+    }
+  }
+</script>
+
+</body>
+</html>
